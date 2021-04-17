@@ -2,6 +2,7 @@
 #include <string>
 #include <unordered_map>
 #include <fstream>
+#include <cmath>
 #include <bitset>
 
 using namespace std;
@@ -20,6 +21,8 @@ string bin(int number, int digitCapacity) {
     }
     return binary;
 }
+int binToDec(string bin);
+void decoder();
 
 int main()
 {
@@ -36,7 +39,7 @@ int main()
 	{
 		dictionary.insert(make_pair(to_string(char(i)), i));
 	}
-
+	cout << binToDec("0100101");
 	
 	ifstream inFile(pathToFile, ios::binary);
 	char byte;
@@ -109,5 +112,72 @@ int main()
 		outFile2.write(&tempChar, sizeof(char));
 	}
 	outFile2.close();
+	decoder();
 }
 
+void decoder() {
+	int digitCapacity = 9;
+	int maxIndex = 512;
+	int index = 256;
+	vector<string> output;
+	unordered_map<int, string> dictionary;
+	for (int i = 0; i <= 255; i++)
+	{
+		dictionary.insert(make_pair(i, string(1, static_cast<char>(i))));
+	}
+	char byte;
+	ifstream inFile("out.txt", ios::binary);
+	ofstream outFile("result.txt", ios::binary);
+	string tempStr;
+	bool flag = true;
+	while (inFile.read(&byte, sizeof(char))) {
+		for (int i = 7; i >= 0; i--)
+		{
+			int bit = (byte >> i) & 1;
+			tempStr += to_string(bit);
+			//cout << endl << tempStr << endl;
+			if (tempStr.length() == digitCapacity) {
+				if (flag) {
+					int tempInt = binToDec(tempStr);
+					//cout << "tempInt" << tempInt << endl;
+					//cout << endl << "check" << static_cast<char>(tempInt) << endl;
+					output.push_back(string(1,static_cast<char>(tempInt)));
+					flag = false;
+					cout << output.back();
+				}
+				else {
+					string prev = output.back();
+					int tempInt = binToDec(tempStr);
+					prev += ( dictionary.at(tempInt)[0]);
+					cout << endl << "prev " << prev << endl;
+					dictionary.insert(make_pair(index++, prev));
+					if (index == maxIndex) {
+						maxIndex *= 2;
+						digitCapacity++;
+					}
+					cout << endl << "dictionary.at(tempInt)" << dictionary.at(tempInt) << endl;
+					output.push_back(dictionary.at(tempInt));
+				}
+				tempStr.clear();
+			}
+		}
+		//cout << " ";
+	}
+	inFile.close();
+	outFile.close();
+	//cout << output.size() << endl;
+	for (int i = 0; i < output.size(); i++) {
+		for (int j = 0; j < output[i].size(); j++) {
+			cout << "Output:" << " " << (output[i][j]) << endl;
+		}
+	}
+}
+int binToDec(string bin) {
+	int dec = 0;
+	for (int i = 0; i < bin.length(); i++) {
+		if (bin[i] == '1') {
+			dec += pow(2, bin.length() - i-1);
+		}
+	}
+	return dec;
+}
