@@ -86,7 +86,7 @@ int main()
 	}
 	cout<<endl;
 	inFile.close();
-	ofstream outFile2("out.txt");
+	ofstream outFile2("out.txt", ios::binary);
 	char tempChar = 0;
 	int pos = 0;
 	for (int i = 0; i < stringBinaryEncoding.size(); i++) {
