@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Archiver2.cpp">
+    <ClCompile Include="map.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
