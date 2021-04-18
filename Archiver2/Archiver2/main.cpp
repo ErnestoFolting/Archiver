@@ -26,7 +26,7 @@ void decoder();
 
 int main()
 {
-	string pathToFile = "in.txt";
+	string pathToFile = "Lab1.pdf";
 	//cin>>pathToFile;
 	
 	char a[] = "''~~''~~''~~''~~";
@@ -34,12 +34,13 @@ int main()
 	outFile.write(a, sizeof(char) *16);
 	outFile.close();
 	
+
+	
 	unordered_map<string, int> dictionary;
 	for(int i=0;i<=255;i++)
 	{
 		dictionary.insert(make_pair(to_string(char(i)), i));
 	}
-	cout << binToDec("0100101");
 	
 	ifstream inFile(pathToFile, ios::binary);
 	char byte;
@@ -112,6 +113,7 @@ int main()
 		outFile2.write(&tempChar, sizeof(char));
 	}
 	outFile2.close();
+	
 	decoder();
 }
 
@@ -148,15 +150,16 @@ void decoder() {
 				else {
 					string prev = output.back();
 					int tempInt = binToDec(tempStr);
-					prev += ( dictionary.at(tempInt)[0]);
-					cout << endl << "prev " << prev << endl;
-					dictionary.insert(make_pair(index++, prev));
-					if (index == maxIndex) {
-						maxIndex *= 2;
-						digitCapacity++;
+					if (dictionary.contains(tempInt)) {
+						prev += (dictionary.at(tempInt)[0]);
+						dictionary.insert(make_pair(index++, prev));
+						if (index == maxIndex) {
+							maxIndex *= 2;
+							digitCapacity++;
+						}
+						cout << endl << "dictionary.at(tempInt)" << dictionary.at(tempInt) << endl;
+						output.push_back(dictionary.at(tempInt));
 					}
-					cout << endl << "dictionary.at(tempInt)" << dictionary.at(tempInt) << endl;
-					output.push_back(dictionary.at(tempInt));
 				}
 				tempStr.clear();
 			}
@@ -164,13 +167,12 @@ void decoder() {
 		//cout << " ";
 	}
 	inFile.close();
-	outFile.close();
-	//cout << output.size() << endl;
 	for (int i = 0; i < output.size(); i++) {
-		for (int j = 0; j < output[i].size(); j++) {
-			cout << "Output:" << " " << (output[i][j]) << endl;
+		for (int j = 0; j < output[i].length(); j++) {
+			outFile.write(&output[i][j], sizeof(char));
 		}
 	}
+	outFile.close();
 }
 int binToDec(string bin) {
 	int dec = 0;
