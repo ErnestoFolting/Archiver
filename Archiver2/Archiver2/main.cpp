@@ -26,7 +26,7 @@ void decoder();
 
 int main()
 {
-	string pathToFile = "Lab1.pdf";
+	string pathToFile = "vinni.png";
 	cin>>pathToFile;
 	/*
 	* 	char a[] = "''~~''~~''~~''~~";
@@ -81,7 +81,7 @@ int main()
 	}
 	binaryEncoding.push_back(dictionary.at(currentlyRecognised));
 	stringBinaryEncoding.push_back(bin(dictionary.at(currentlyRecognised), digitCapacity));
-	/*for(int i=0;i<binaryEncoding.size();i++)
+	for(int i=0;i<binaryEncoding.size();i++)
 	{
 		cout<<binaryEncoding[i]<<" ";
 	}
@@ -90,7 +90,7 @@ int main()
 	{
 		cout<<stringBinaryEncoding[i]<<" ";
 	}
-	*/
+	
 	cout<<endl;
 	inFile.close();
 	ofstream outFile2("out.txt", ios::binary);
@@ -132,9 +132,10 @@ void decoder() {
 	}
 	char byte;
 	ifstream inFile("out.txt", ios::binary);
-	ofstream outFile("result.txt", ios::binary);
+	ofstream outFile("result.png", ios::binary);
 	string tempStr;
 	bool flag = true;
+	string prev = "";
 	while (inFile.read(&byte, sizeof(char))) {
 		for (int i = 7; i >= 0; i--)
 		{
@@ -145,23 +146,31 @@ void decoder() {
 					int tempInt = binToDec(tempStr);
 					output.push_back(string(1,static_cast<char>(tempInt)));
 					flag = false;
-					cout << output.back();
+					prev = string(1, static_cast<char>(tempInt));
 				}
 				else {
-					string prev = output.back();
 					int tempInt = binToDec(tempStr);
-					//cout << "tempStr" << tempStr;
-					//cout << "tempInt" << tempInt << endl;
+					cout << "tempStr" << tempStr;
+					cout << "tempInt" << tempInt << endl;
+					cout << "index" << index << endl;
 					if (dictionary.contains(tempInt)) {
-						prev += (dictionary.at(tempInt)[0]);
+						prev = prev + (dictionary.at(tempInt)[0]);
 						dictionary.insert(make_pair(index++, prev));
-						if (index == maxIndex-1) {
-							maxIndex *= 2;
+						if (index == (maxIndex-1)) {
+							maxIndex = maxIndex * 2;
 							digitCapacity++;
 						}
-						//cout << endl << "dictionary.at(tempInt)" << dictionary.at(tempInt) << endl;
 						output.push_back(dictionary.at(tempInt));
 					}
+					else {
+						dictionary.insert(make_pair(index++, (prev + prev[0])));
+						if (index == (maxIndex-1)) {
+							maxIndex = maxIndex * 2;
+							digitCapacity++;
+						}
+						output.push_back(prev + prev[0]);
+					}
+					prev = dictionary.at(tempInt);
 				}
 				tempStr.clear();
 			}
