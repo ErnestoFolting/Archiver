@@ -81,7 +81,7 @@ int main()
 	}
 	binaryEncoding.push_back(dictionary.at(currentlyRecognised));
 	stringBinaryEncoding.push_back(bin(dictionary.at(currentlyRecognised), digitCapacity));
-	/*for(int i=0;i<binaryEncoding.size();i++)
+	for(int i=0;i<binaryEncoding.size();i++)
 	{
 		cout<<binaryEncoding[i]<<" ";
 	}
@@ -90,7 +90,7 @@ int main()
 	{
 		cout<<stringBinaryEncoding[i]<<" ";
 	}
-	*/
+	
 	cout<<endl;
 	inFile.close();
 	ofstream outFile2("out.txt", ios::binary);
@@ -150,17 +150,25 @@ void decoder() {
 				else {
 					string prev = output.back();
 					int tempInt = binToDec(tempStr);
-					//cout << "tempStr" << tempStr;
-					//cout << "tempInt" << tempInt << endl;
+					cout << "tempStr" << tempStr;
+					cout << "tempInt" << tempInt << endl;
+					cout << "index" << index << endl;
 					if (dictionary.contains(tempInt)) {
-						prev += (dictionary.at(tempInt)[0]);
 						dictionary.insert(make_pair(index++, prev));
-						if (index == maxIndex-1) {
-							maxIndex *= 2;
+						prev = prev + (dictionary.at(tempInt)[0]);
+						if (index == (maxIndex-1)) {
+							maxIndex = maxIndex * 2;
 							digitCapacity++;
 						}
-						//cout << endl << "dictionary.at(tempInt)" << dictionary.at(tempInt) << endl;
 						output.push_back(dictionary.at(tempInt));
+					}
+					else {
+						dictionary.insert(make_pair(index++, (prev + prev[0])));
+						if (index == (maxIndex-1)) {
+							maxIndex = maxIndex * 2;
+							digitCapacity++;
+						}
+						output.push_back(string(1, static_cast<char>(prev[0])));
 					}
 				}
 				tempStr.clear();
