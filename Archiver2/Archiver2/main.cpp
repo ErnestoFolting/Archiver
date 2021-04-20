@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
 	{
 		if(strcmp(argv[1], "--compress")==0)
 		{
-			compressor compressorOfFiles(argv[2]);
-			compressorOfFiles.compress();
+			compressor compressorOfFiles;
+			compressorOfFiles.compress(argv[3], argv[2]);
 		}
 		else if(strcmp(argv[1],"--decompress")==0)
 		{

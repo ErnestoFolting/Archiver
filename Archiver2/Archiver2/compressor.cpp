@@ -7,8 +7,8 @@
 
 using namespace std;
 
-compressor::compressor(std::string pathToFile):
-digitCapacity(9), maxIndex(512), index(256), pathToFile(pathToFile)
+compressor::compressor():
+digitCapacity(9), maxIndex(512), index(256)
 {
 	for(int i=0;i<=255;i++)
 	{
@@ -16,7 +16,7 @@ digitCapacity(9), maxIndex(512), index(256), pathToFile(pathToFile)
 	}
 }
 
-void compressor::compress()
+void compressor::compress(string pathToFile, string archiveName)
 {	
 	ifstream inFile(pathToFile, ios::binary);
 	char byte;
@@ -50,5 +50,5 @@ void compressor::compress()
 	}
 	stringBinaryEncoding.push_back(converter::decimalToBinary(dictionary.at(currentlyRecognised), digitCapacity));
 	inFile.close();
-	bytesWriter::writeCompressedBytes(stringBinaryEncoding, pathToFile);
+	bytesWriter::writeCompressedBytes(stringBinaryEncoding, archiveName);
 }

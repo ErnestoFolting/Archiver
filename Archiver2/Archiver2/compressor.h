@@ -4,11 +4,10 @@
 class compressor
 {
 public:
-	compressor(std::string pathToFile);
-	void compress();
+	compressor();
+	void compress(std::string pathToFile, std::string archiveName);
 private:
 	std::unordered_map<std::string, int> dictionary;
-	std::string pathToFile;
 	int digitCapacity;
 	int maxIndex;
 	int index;

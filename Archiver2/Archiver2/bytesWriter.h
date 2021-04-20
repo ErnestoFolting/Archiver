@@ -6,6 +6,6 @@ class bytesWriter
 {
 public:
 	static void writeUncomressedBytes(std::string resultFile, std::vector<std::string> bytesInStr);
-	static void writeCompressedBytes(std::vector<std::string> stringBinaryEncoding, std::string fileName);
+	static void writeCompressedBytes(std::vector<std::string> stringBinaryEncoding, std::string archiveName);
 };
 

@@ -15,10 +15,9 @@ void bytesWriter::writeUncomressedBytes(std::string resultFile, vector<string> b
 	outFile.close();
 }
 
-void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string fileName)
+void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName)
 {
-	fileName=fileName.substr(0, fileName.find('.'));
-	ofstream outFile2(fileName+".lzw", ios::binary);
+	ofstream outFile2(archiveName, ios::binary);
 	char tempChar = 0;
 	int pos = 0;
 	for (int i = 0; i < stringBinaryEncoding.size(); i++) {
