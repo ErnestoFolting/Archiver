@@ -141,7 +141,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="compressor.cpp" />
+    <ClCompile Include="converter.cpp" />
+    <ClCompile Include="decompressor.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="compressor.h" />
+    <ClInclude Include="converter.h" />
+    <ClInclude Include="decompressor.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
