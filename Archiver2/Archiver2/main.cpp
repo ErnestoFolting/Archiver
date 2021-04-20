@@ -4,23 +4,23 @@
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
-	std::cout<<"compress(0) decompress(1): ";
-	int choice;
-	cin>>choice;
-	if(!choice)
+	if(argc>=3)
 	{
-		std::string pathToFile;
-		cin>>pathToFile;
-		compressor compressorOfFiles(pathToFile);
-		compressorOfFiles.compress();
+		if(strcmp(argv[1], "--compress")==0)
+		{
+			compressor compressorOfFiles(argv[2]);
+			compressorOfFiles.compress();
+		}
+		else if(strcmp(argv[1],"--decompress")==0)
+		{
+			decompressor decompressorOfFiles;
+			decompressorOfFiles.decompress(argv[2]);
+		}
 	}
 	else
 	{
-		std::string pathToCompressedFile;
-		cin>>pathToCompressedFile;
-		decompressor decompressorOfFiles;
-		decompressorOfFiles.decompress(pathToCompressedFile);
+		cout<<"Not enough arguments!\n";
 	}
 }
