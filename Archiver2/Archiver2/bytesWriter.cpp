@@ -1,5 +1,6 @@
 #include "bytesWriter.h"
 #include "byteCounter.h"
+#include "view.h"
 #include <fstream>
 #include <vector>
 #include <iostream>
@@ -14,20 +15,20 @@ void bytesWriter::writeUncomressedBytes(std::string resultFile, vector<string> b
 			outFile.write(&bytesInStr[i][j], sizeof(char));
 		}
 	}
+	view::decompressFinished(resultFile);
 	outFile.close();
 }
 
 void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName, string fileName)
 {
-	long long int size = byteCounter::getSizeOfFile(stringBinaryEncoding);
+	long long int sizeOfFile = byteCounter::getSizeOfFile(stringBinaryEncoding);
 	ofstream outFile2(archiveName, ios::binary|ios::app|ios::out);
 	int sizeFileName = fileName.length() + 1;
 	outFile2.write((char*)&(sizeFileName), sizeof(int));
 	outFile2.write((char*)fileName.data(), sizeFileName);
-	outFile2.write((char*)&size, sizeof(size));
+	outFile2.write((char*)&sizeOfFile, sizeof(sizeOfFile));
 	char tempChar = 0;
 	int pos = 0;
-	long long int sizeOfFile;
 	for (int i = 0; i < stringBinaryEncoding.size(); i++) {
 		string tempBinaryEncoded = stringBinaryEncoding[i];
 		for (int k = 0; k < tempBinaryEncoded.length(); k++) {
@@ -47,5 +48,6 @@ void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, stri
 		tempChar <<= (7 - pos);
 		outFile2.write(&tempChar, sizeof(char));
 	}
+	view::compressFinished(archiveName);
 	outFile2.close();
 }

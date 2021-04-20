@@ -147,6 +147,8 @@
     <ClCompile Include="converter.cpp" />
     <ClCompile Include="decompressor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="view.cpp" />
+    <ClCompile Include="workWithCommandLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="byteCounter.h" />
@@ -154,6 +156,8 @@
     <ClInclude Include="compressor.h" />
     <ClInclude Include="converter.h" />
     <ClInclude Include="decompressor.h" />
+    <ClInclude Include="view.h" />
+    <ClInclude Include="workWithCommandLine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
