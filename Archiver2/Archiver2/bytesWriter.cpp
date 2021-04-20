@@ -1,12 +1,14 @@
 #include "bytesWriter.h"
+#include "byteCounter.h"
 #include <fstream>
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
 void bytesWriter::writeUncomressedBytes(std::string resultFile, vector<string> bytesInStr)
 {
-	ofstream outFile("result.pdf", ios::binary);
+	ofstream outFile(resultFile, ios::binary);
 	for (int i = 0; i < bytesInStr.size(); i++) {
 		for (int j = 0; j < bytesInStr[i].length(); j++) {
 			outFile.write(&bytesInStr[i][j], sizeof(char));
@@ -15,11 +17,17 @@ void bytesWriter::writeUncomressedBytes(std::string resultFile, vector<string> b
 	outFile.close();
 }
 
-void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName)
+void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName, string pathToFile)
 {
+	long long int size = byteCounter::getSizeOfFile(stringBinaryEncoding);
 	ofstream outFile2(archiveName, ios::binary);
+	int sizeFileName = pathToFile.length() + 1;
+	outFile2.write((char*)&(sizeFileName), sizeof(int));
+	outFile2.write((char*)pathToFile.data(), sizeFileName);
+	outFile2.write((char*)&size, sizeof(size));
 	char tempChar = 0;
 	int pos = 0;
+	long long int sizeOfFile;
 	for (int i = 0; i < stringBinaryEncoding.size(); i++) {
 		string tempBinaryEncoded = stringBinaryEncoding[i];
 		for (int k = 0; k < tempBinaryEncoded.length(); k++) {
@@ -40,4 +48,5 @@ void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, stri
 		outFile2.write(&tempChar, sizeof(char));
 	}
 	outFile2.close();
+	cout << "Check" << endl;
 }

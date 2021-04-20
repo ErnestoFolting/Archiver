@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="byteCounter.cpp" />
     <ClCompile Include="bytesWriter.cpp" />
     <ClCompile Include="compressor.cpp" />
     <ClCompile Include="converter.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="byteCounter.h" />
     <ClInclude Include="bytesWriter.h" />
     <ClInclude Include="compressor.h" />
     <ClInclude Include="converter.h" />

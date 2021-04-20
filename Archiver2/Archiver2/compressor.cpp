@@ -50,5 +50,5 @@ void compressor::compress(string pathToFile, string archiveName)
 	}
 	stringBinaryEncoding.push_back(converter::decimalToBinary(dictionary.at(currentlyRecognised), digitCapacity));
 	inFile.close();
-	bytesWriter::writeCompressedBytes(stringBinaryEncoding, archiveName);
+	bytesWriter::writeCompressedBytes(stringBinaryEncoding, archiveName, pathToFile);
 }

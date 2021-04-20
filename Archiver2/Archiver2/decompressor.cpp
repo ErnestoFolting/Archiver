@@ -21,6 +21,12 @@ void decompressor::decompress(string compressedFIle)
 	vector<string> output;
 	char byte;
 	ifstream inFile(compressedFIle, ios::binary);
+	int sizeFileName;
+	string pathToFile;
+	long long int size = 0;
+	inFile.read((char*)&(sizeFileName), sizeof(int));
+	inFile.read((char*)pathToFile.data(), sizeFileName);
+	inFile.read((char*)&size, sizeof(size));
 	string tempStr;
 	bool flag = true;
 	string prev;
@@ -62,6 +68,5 @@ void decompressor::decompress(string compressedFIle)
 		}
 	}
 	inFile.close();
-	string resultFile("result.pdf");
-	bytesWriter::writeUncomressedBytes(resultFile, output);
+	bytesWriter::writeUncomressedBytes(pathToFile, output);
 }
