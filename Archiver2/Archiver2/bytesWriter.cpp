@@ -20,7 +20,7 @@ void bytesWriter::writeUncomressedBytes(std::string resultFile, vector<string> b
 void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName, string pathToFile)
 {
 	long long int size = byteCounter::getSizeOfFile(stringBinaryEncoding);
-	ofstream outFile2(archiveName, ios::binary);
+	ofstream outFile2(archiveName, ios::binary|ios::app|ios::out);
 	int sizeFileName = pathToFile.length() + 1;
 	outFile2.write((char*)&(sizeFileName), sizeof(int));
 	outFile2.write((char*)pathToFile.data(), sizeFileName);
@@ -48,5 +48,4 @@ void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, stri
 		outFile2.write(&tempChar, sizeof(char));
 	}
 	outFile2.close();
-	cout << "Check" << endl;
 }
