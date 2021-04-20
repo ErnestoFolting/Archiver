@@ -1,5 +1,6 @@
 #include "decompressor.h"
 #include "converter.h"
+#include "bytesWriter.h"
 #include <string>
 #include <unordered_map>
 #include <fstream>
@@ -61,12 +62,6 @@ void decompressor::decompress(string compressedFIle)
 		}
 	}
 	inFile.close();
-	
-	ofstream outFile("result.pdf", ios::binary);
-	for (int i = 0; i < output.size(); i++) {
-		for (int j = 0; j < output[i].length(); j++) {
-			outFile.write(&output[i][j], sizeof(char));
-		}
-	}
-	outFile.close();
+	string resultFile("result.pdf");
+	bytesWriter::writeUncomressedBytes(resultFile, output);
 }

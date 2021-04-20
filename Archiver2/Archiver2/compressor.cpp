@@ -1,5 +1,6 @@
 #include "compressor.h"
 #include "converter.h"
+#include "bytesWriter.h"
 #include <string>
 #include <unordered_map>
 #include <fstream>
@@ -49,27 +50,5 @@ void compressor::compress()
 	}
 	stringBinaryEncoding.push_back(converter::decimalToBinary(dictionary.at(currentlyRecognised), digitCapacity));
 	inFile.close();
-	ofstream outFile2("out.txt", ios::binary);
-	char tempChar = 0;
-	int pos = 0;
-	for (int i = 0; i < stringBinaryEncoding.size(); i++) {
-		string tempBinaryEncoded = stringBinaryEncoding[i];
-		for (int k = 0; k < tempBinaryEncoded.length(); k++) {
-			if (tempBinaryEncoded[k] == '1') {
-				tempChar = tempChar | 1;
-			}
-			pos++;
-			if (pos == 8) {
-				pos = 0;
-				outFile2.write(&tempChar, sizeof(char));
-				tempChar = 0;
-			}
-			tempChar = tempChar << 1;
-		}
-	}
-	if (pos != 0) {
-		tempChar <<= (7 - pos);
-		outFile2.write(&tempChar, sizeof(char));
-	}
-	outFile2.close();
+	bytesWriter::writeCompressedBytes(stringBinaryEncoding);
 }

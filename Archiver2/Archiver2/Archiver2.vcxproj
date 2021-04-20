@@ -141,12 +141,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="bytesWriter.cpp" />
     <ClCompile Include="compressor.cpp" />
     <ClCompile Include="converter.cpp" />
     <ClCompile Include="decompressor.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="bytesWriter.h" />
     <ClInclude Include="compressor.h" />
     <ClInclude Include="converter.h" />
     <ClInclude Include="decompressor.h" />
