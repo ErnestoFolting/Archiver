@@ -5,7 +5,7 @@ class compressor
 {
 public:
 	compressor();
-	void compress(std::string pathToFile, std::string archiveName);
+	void compress(std::string fileName, std::string archiveName);
 private:
 	std::unordered_map<std::string, int> dictionary;
 	int digitCapacity;

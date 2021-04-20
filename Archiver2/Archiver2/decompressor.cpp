@@ -8,33 +8,32 @@
 
 using namespace std;
 
-void decompressor::decompress(string compressedFIle)
+void decompressor::decompress(string compressedFile)
 {
-	vector<string> output;
-	char byte;
-	ifstream inFile(compressedFIle, ios::binary);
+	ifstream inFile(compressedFile, ios::binary);
 	int sizeFileName;
-	cout << "Check" << endl;
 	while (inFile.read((char*)&(sizeFileName), sizeof(int))) {
 		unordered_map<int, string> dictionary;
+		vector<string> output;
 		for (int i = 0; i <= 255; i++)
 		{
 			dictionary.insert(make_pair(i, string(1, static_cast<char>(i))));
 		}
+		long long int fileSizeInBytes = 0;
 		int digitCapacity = 9;
 		int index = 256;
 		int maxIndex = 512;
-		string pathToFile;
-		long long int size = 0;
+		string fileName;
 		string tempStr;
-		bool flag = true;
 		string prev;
-		char* tempChar = new char[sizeFileName];
-		inFile.read(tempChar, sizeFileName);
-		pathToFile = tempChar;
-		cout << tempChar << endl;
-		inFile.read((char*)&size, sizeof(size));
-		for (int j = 0; j < size; j++) {
+		char byte;
+		char* tempCharFileName = new char[sizeFileName];
+		bool flag = true;
+		inFile.read(tempCharFileName, sizeFileName);
+		fileName = tempCharFileName;
+		delete[] tempCharFileName;
+		inFile.read((char*)&fileSizeInBytes, sizeof(fileSizeInBytes));
+		for (int j = 0; j < fileSizeInBytes; j++) {
 			inFile.read(&byte, sizeof(char));
 			for (int i = 7; i >= 0; i--)
 			{
@@ -43,7 +42,7 @@ void decompressor::decompress(string compressedFIle)
 				if (tempStr.length() == digitCapacity) {
 					if (flag) {
 						int tempInt = converter::binaryToDecimal(tempStr);
-						output.push_back(string(1, static_cast<char>(tempInt)));
+						output.emplace_back(string(1, static_cast<char>(tempInt)));
 						flag = false;
 						prev = string(1, static_cast<char>(tempInt));
 					}
@@ -72,9 +71,7 @@ void decompressor::decompress(string compressedFIle)
 				}
 			}
 		}
-		bytesWriter::writeUncomressedBytes(pathToFile, output);
-		output.clear();
-		delete[] tempChar;
+		bytesWriter::writeUncomressedBytes(fileName, output);
 	}
 	inFile.close();
 }

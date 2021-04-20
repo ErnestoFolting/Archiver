@@ -10,12 +10,10 @@ int main(int argc, char *argv[])
 {
 	if(argc>=3)
 	{
-		if(strcmp(argv[1], "--compress")==0)
+		if((strcmp(argv[1], "--compress")==0)&&(argc>=4))
 		{
 			if(filesystem::exists(argv[2]))
 				remove(argv[2]);
-			/*ofstream archive(argv[2], ios::binary);
-			archive.close();*/
 			for(int i=3; i<argc;i++)
 			{
 				compressor compressorOfFiles;
@@ -26,6 +24,10 @@ int main(int argc, char *argv[])
 		{
 			decompressor decompressorOfFiles;
 			decompressorOfFiles.decompress(argv[2]);
+		}
+		else
+		{
+			cout<<"Wrong arguments!\n";
 		}
 	}
 	else

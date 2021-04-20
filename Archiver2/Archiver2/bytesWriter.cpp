@@ -17,13 +17,13 @@ void bytesWriter::writeUncomressedBytes(std::string resultFile, vector<string> b
 	outFile.close();
 }
 
-void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName, string pathToFile)
+void bytesWriter::writeCompressedBytes(vector<string> stringBinaryEncoding, string archiveName, string fileName)
 {
 	long long int size = byteCounter::getSizeOfFile(stringBinaryEncoding);
 	ofstream outFile2(archiveName, ios::binary|ios::app|ios::out);
-	int sizeFileName = pathToFile.length() + 1;
+	int sizeFileName = fileName.length() + 1;
 	outFile2.write((char*)&(sizeFileName), sizeof(int));
-	outFile2.write((char*)pathToFile.data(), sizeFileName);
+	outFile2.write((char*)fileName.data(), sizeFileName);
 	outFile2.write((char*)&size, sizeof(size));
 	char tempChar = 0;
 	int pos = 0;

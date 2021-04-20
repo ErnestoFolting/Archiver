@@ -1,10 +1,10 @@
 #include "byteCounter.h"
 
-long long int byteCounter::getSizeOfFile(std::vector<std::string> tempVector)
+long long int byteCounter::getSizeOfFile(std::vector<std::string> fileBits)
 {
     long long int size = 0;
-    for (int i = 0; i < tempVector.size(); i++) {
-        for (int j = 0; j < tempVector[i].length(); j++) {
+    for (int i = 0; i < fileBits.size(); i++) {
+        for (int j = 0; j < fileBits[i].length(); j++) {
             size++;
         }
     }

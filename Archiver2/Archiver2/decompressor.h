@@ -5,6 +5,6 @@
 class decompressor
 {
 public:
-	void decompress(std::string compressedFIle);
+	void decompress(std::string compressedFile);
 };
 
