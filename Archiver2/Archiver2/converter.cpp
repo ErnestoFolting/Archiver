@@ -2,7 +2,7 @@
 
 using namespace std;
 
-std::string converter::bin(int number, int digitCapacity)
+std::string converter::decimalToBinary(int number, int digitCapacity)
 {
 	string binary;
 	if(number==0) binary="0";
@@ -18,13 +18,13 @@ std::string converter::bin(int number, int digitCapacity)
     return binary;
 }
 
-int converter::binToDec(std::string bin)
+int converter::binaryToDecimal(std::string binary)
 {
-	int dec = 0;
-	for (int i = 0; i < bin.length(); i++) {
-		if (bin[i] == '1') {
-			dec += pow(2, bin.length() - i-1);
+	int decimal = 0;
+	for (int i = 0; i < binary.length(); i++) {
+		if (binary[i] == '1') {
+			decimal += pow(2, binary.length() - i-1);
 		}
 	}
-	return dec;
+	return decimal;
 }

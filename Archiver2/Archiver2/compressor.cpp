@@ -1,32 +1,27 @@
 #include "compressor.h"
 #include "converter.h"
-#include <iostream>
 #include <string>
 #include <unordered_map>
 #include <fstream>
 
 using namespace std;
 
-void compressor::compress()
+compressor::compressor(std::string pathToFile):
+digitCapacity(9), maxIndex(512), index(256), pathToFile(pathToFile)
 {
-	string pathToFile = "vinni.png";
-	cin>>pathToFile;
-	
-	unordered_map<string, int> dictionary;
 	for(int i=0;i<=255;i++)
 	{
 		dictionary.insert(make_pair(string(1, static_cast<char>(i)), i));
 	}
-	
+}
+
+void compressor::compress()
+{	
 	ifstream inFile(pathToFile, ios::binary);
 	char byte;
 	inFile.read(&byte, sizeof(char));
 	string currentlyRecognised= string(1, static_cast<char>(byte));
-	vector<int> binaryEncoding;
 	vector<string> stringBinaryEncoding;
-	int digitCapacity=9;
-	int maxIndex=512;
-	int index=256;
 	
 	while (inFile.read(&byte, sizeof(char)))
 	{
@@ -41,8 +36,7 @@ void compressor::compress()
 				digitCapacity++;
 				maxIndex*=2;
 			}
-			binaryEncoding.push_back(dictionary.at(currentlyRecognised));
-			stringBinaryEncoding.push_back(converter::bin(dictionary.at(currentlyRecognised), digitCapacity));
+			stringBinaryEncoding.push_back(converter::decimalToBinary(dictionary.at(currentlyRecognised), digitCapacity));
 			dictionary.insert(make_pair(currentlyRecognised+ string(1, static_cast<char>(byte)), index));
 			index++;
 			currentlyRecognised= string(1, static_cast<char>(byte));
@@ -53,8 +47,7 @@ void compressor::compress()
 		digitCapacity++;
 		maxIndex*=2;
 	}
-	binaryEncoding.push_back(dictionary.at(currentlyRecognised));
-	stringBinaryEncoding.push_back(converter::bin(dictionary.at(currentlyRecognised), digitCapacity));
+	stringBinaryEncoding.push_back(converter::decimalToBinary(dictionary.at(currentlyRecognised), digitCapacity));
 	inFile.close();
 	ofstream outFile2("out.txt", ios::binary);
 	char tempChar = 0;

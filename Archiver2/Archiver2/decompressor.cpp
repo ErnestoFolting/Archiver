@@ -6,20 +6,20 @@
 
 using namespace std;
 
-void decompressor::decompress()
+decompressor::decompressor():
+digitCapacity(9), index(256), maxIndex(512) 
 {
-	int digitCapacity = 9;
-	int maxIndex = 512;
-	int index = 256;
-	vector<string> output;
-	unordered_map<int, string> dictionary;
 	for (int i = 0; i <= 255; i++)
 	{
 		dictionary.insert(make_pair(i, string(1, static_cast<char>(i))));
 	}
+}
+
+void decompressor::decompress(string compressedFIle)
+{
+	vector<string> output;
 	char byte;
-	ifstream inFile("out.txt", ios::binary);
-	ofstream outFile("result.pdf", ios::binary);
+	ifstream inFile(compressedFIle, ios::binary);
 	string tempStr;
 	bool flag = true;
 	string prev;
@@ -30,13 +30,13 @@ void decompressor::decompress()
 			tempStr += to_string(bit);
 			if (tempStr.length() == digitCapacity) {
 				if (flag) {
-					int tempInt = converter::binToDec(tempStr);
+					int tempInt = converter::binaryToDecimal(tempStr);
 					output.push_back(string(1,static_cast<char>(tempInt)));
 					flag = false;
 					prev = string(1, static_cast<char>(tempInt));
 				}
 				else {
-					int tempInt = converter::binToDec(tempStr);
+					int tempInt = converter::binaryToDecimal(tempStr);
 					if (dictionary.contains(tempInt)) {
 						prev = prev + (dictionary.at(tempInt)[0]);
 						dictionary.insert(make_pair(index++, prev));
@@ -61,6 +61,8 @@ void decompressor::decompress()
 		}
 	}
 	inFile.close();
+	
+	ofstream outFile("result.pdf", ios::binary);
 	for (int i = 0; i < output.size(); i++) {
 		for (int j = 0; j < output[i].length(); j++) {
 			outFile.write(&output[i][j], sizeof(char));

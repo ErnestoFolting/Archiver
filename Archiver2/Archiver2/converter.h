@@ -4,7 +4,7 @@
 class converter
 {
 public:
-	static std::string bin(int number, int digitCapacity);
-	static int binToDec(std::string bin);
+	static std::string decimalToBinary(int number, int digitCapacity);
+	static int binaryToDecimal(std::string binary);
 };
 

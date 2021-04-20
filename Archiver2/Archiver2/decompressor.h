@@ -1,7 +1,16 @@
 #pragma once
+#include <string>
+#include <unordered_map>
+
 class decompressor
 {
 public:
-	void decompress();
+	decompressor();
+	void decompress(std::string compressedFIle);
+private:
+	std::unordered_map<int, std::string> dictionary;
+	int digitCapacity;
+	int maxIndex;
+	int index;
 };
 
