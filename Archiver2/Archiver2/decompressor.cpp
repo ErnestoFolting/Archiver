@@ -4,6 +4,7 @@
 #include <string>
 #include <unordered_map>
 #include <fstream>
+#include <filesystem>
 #include <iostream>
 #include "view.h"
 
@@ -16,6 +17,9 @@ void decompressor::decompress(string compressedFile)
 		view::canNotOpenToDecompress();
 	}
 	else {
+		int mode=0;
+		inFile.read((char*)&mode, sizeof(mode));
+		bool folderIsCreated=false;
 		int sizeFileName;
 		while (inFile.read((char*)&(sizeFileName), sizeof(int))) {
 			unordered_map<int, string> dictionary;
@@ -34,6 +38,13 @@ void decompressor::decompress(string compressedFile)
 			view::decompressStarted(tempCharFileName);
 			fileName = tempCharFileName;
 			delete[] tempCharFileName;
+			if((mode==0)&&(folderIsCreated==false))
+			{
+				filesystem::path pathToFile(fileName);
+				string pathToFolder=pathToFile.parent_path().string();
+				filesystem::create_directory(pathToFolder);
+				folderIsCreated=true;
+			}
 			inFile.read((char*)&fileSizeInBytes, sizeof(fileSizeInBytes));
 			for (int j = 0; j < fileSizeInBytes; j++) {
 				inFile.read(&byte, sizeof(char));
